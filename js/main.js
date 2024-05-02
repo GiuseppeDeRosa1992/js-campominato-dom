@@ -12,7 +12,7 @@ let arrayBomb = []
 let punteggio = 0
 
 //inizio funzione che mi crea il quadrato
-function createSquare(qualcosa) {
+function createSquare(contatore) {
     //creo una variabile e creo un div
     let quadrato = document.createElement("div")
     //aggiungo una class al div con variabile quadrato
@@ -21,16 +21,20 @@ function createSquare(qualcosa) {
     quadrato.classList.add("fa-solid")
     quadrato.classList.add("fa-bomb")
 
-    //creo l'evento che quando clicco sul quadrato mi aggiunge la class che su css ha background blue e con toggle quando clicco un quadrato blu mi ritorna con background normale
+    //creo l'evento che quando l'utente prende la bomba si colora di rosso e scatta un alert in pagina
     quadrato.addEventListener("click", function () {
-        if (arrayBomb.includes(qualcosa)) {
-            quadrato.innerText = qualcosa
+        if (arrayBomb.includes(contatore)) {
             quadrato.classList.add("red")
-            console.log("Il tuo punteggio totale è: ", punteggio)
+            quadrato.innerText = contatore
+            alert(`HAI PERSO, il tuo punteggio totale è: ${punteggio} RICARICA LA PAGINA`)
+            console.log(`Hai trovato la bomba n. : ${contatore}`)
+            console.log(`Le bombe erano le n. : ${arrayBomb}`)
+            punteggio = 0
+            grid.innerHTML = "RICARICA LA PAGINA"
         }
-        // se invece il quadrato ancora non contiene white allora gli mette sia white che il numero
+        // se invece non prende la bomba si colora di azzurro e mi aggiorna il risultato totale
         else {
-            quadrato.innerText = qualcosa
+            quadrato.innerText = contatore
             quadrato.classList.add("azure")
             punteggio++
             console.log("il tuo punteggio attuale è: " ,punteggio)
@@ -52,7 +56,6 @@ start.addEventListener("click", function () {
             }
             //sennò se nella lista quel numero non ce pusha il numero nella lista 
             else{
-                console.log("Le bombe sono la numero:" ,bomb)
                 arrayBomb.push(bomb)
             }
             numberBomb++
@@ -71,15 +74,12 @@ start.addEventListener("click", function () {
             bomb = Math.floor(Math.random() * 81) + 1;
             if(arrayBomb.includes(bomb)){
             }else{
-                console.log("Le bombe sono la numero:" ,bomb)
                 arrayBomb.push(bomb)
             }
             numberBomb++
         }
         console.log(select.value)
         for (let i = 1; i <= 81; i++) {
-            //Console log per stampare i numeri da 1 a 100 in console
-            console.log(i)
             //Creo variabile square e gli dico che è uguale alla funziona che mi crea il quadrato e gli do il numero dell'indice del quadrato creato
             let square = createSquare(i)
             square.classList.add("square-9")
@@ -91,15 +91,12 @@ start.addEventListener("click", function () {
             bomb = Math.floor(Math.random() * 49) + 1;
             if(arrayBomb.includes(bomb)){
             }else{
-                console.log("Le bombe sono la numero:" ,bomb)
                 arrayBomb.push(bomb)
             }
             numberBomb++
         }
         console.log(select.value)
         for (let i = 1; i <= 49; i++) {
-            //Console log per stampare i numeri da 1 a 100 in console
-            console.log(i)
             //Creo variabile square e gli dico che è uguale alla funziona che mi crea il quadrato e gli do il numero dell'indice del quadrato creato
             let square = createSquare(i)
             square.classList.add("square-7")
