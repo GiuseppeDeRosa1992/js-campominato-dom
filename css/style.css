@@ -56,6 +56,14 @@ main {
     background-color: white;
 }
 
+.red {
+    background-color: red;
+}
+
+.azure {
+    background-color: aqua;
+}
+
 button {
     margin-top: 1rem;
     padding: 1rem;
