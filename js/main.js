@@ -11,6 +11,7 @@ let arrayBomb = []
 //Creo variabile per calcolare il punteggio
 let punteggio = 0
 
+let difficulty;
 //inizio funzione che mi crea il quadrato
 function createSquare(contatore) {
     //creo una variabile e creo un div
@@ -30,25 +31,40 @@ function createSquare(contatore) {
             console.log(`Hai trovato la bomba n. : ${contatore}`)
             console.log(`Le bombe erano le n. : ${arrayBomb}`)
             punteggio = 0
+            //aggiungo classe pointer che richiamo in css e quando l'utente prende la bomba non può più cliccare altri quadrati
             grid.classList.add("pointer")
         }
-        // se invece non prende la bomba si colora di azzurro e mi aggiorna il risultato totale
-        else {
+        else{
+            // se invece non prende la bomba si colora di azzurro e mi aggiorna il risultato totale
             quadrato.innerText = contatore
             quadrato.classList.add("azure")
             punteggio++
             console.log("il tuo punteggio attuale è: " ,punteggio)
+            
+            //Controllo se l'utente vince quando non ci sono più celle da cliccare
+            if (difficulty == "easy" && punteggio == 84){
+                console.log("punteggio", punteggio)
+                alert("HAI VINTO")
+            }else if (difficulty == "medium" && punteggio == 65){
+                console.log("punteggio", punteggio)
+                alert("HAI VINTO")
+            }else if (difficulty == "hard" && punteggio == 33){
+                console.log("punteggio", punteggio)
+                alert("HAI VINTO")
+            }
         }
     })
     //la funzione mi ritorna quadrato che poi vado a richimare fuori
     return quadrato
 }
- 
+
+
 start.addEventListener("click", function () {
     grid.innerHTML = ""
+    difficulty = select.value
     if (select.value == "easy") {
         //Inserisco il ciclo while che mi crea 16 bombette random senza creare doppioni e finche la lista non ha 16 numeri perchè come condizione ho messo lunghezza della lista
-        while (arrayBomb.length <=15){
+        while (arrayBomb.length <=16){
             bomb = Math.floor(Math.random() * 100) + 1;
             //se la lista include già quel numero allora non lo pusha
             if(arrayBomb.includes(bomb)){
@@ -64,7 +80,6 @@ start.addEventListener("click", function () {
         for (let i = 1; i <= 100; i++) {
             //Creo variabile square e gli dico che è uguale alla funziona che mi crea il quadrato e gli do il numero dell'indice del quadrato creato
             let square = createSquare(i)
-            
             //appendo alla griglia in html square
             grid.append(square)
         }
