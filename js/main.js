@@ -30,7 +30,7 @@ function createSquare(contatore) {
             console.log(`Hai trovato la bomba n. : ${contatore}`)
             console.log(`Le bombe erano le n. : ${arrayBomb}`)
             punteggio = 0
-            grid.innerHTML = "RICARICA LA PAGINA"
+            grid.classList.add("pointer")
         }
         // se invece non prende la bomba si colora di azzurro e mi aggiorna il risultato totale
         else {
