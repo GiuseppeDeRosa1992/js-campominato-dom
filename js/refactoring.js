@@ -1,0 +1,112 @@
+
+let grid = document.getElementById("grid")
+let start = document.getElementById("start")
+let select = document.getElementById("difficulty")
+//creo variabile bomb per le bombe che creerò con generatori di numeri random
+let bomb = ""
+//creo variabile dove pusho la lista di numeri che devo associare alle bombe
+let arrayBomb = []
+//Creo variabile per calcolare il punteggio
+let punteggio = 0
+
+let difficulty;
+//inizio funzione che mi crea il quadrato
+function createSquare(contatore) {
+    //creo una variabile e creo un div
+    let quadrato = document.createElement("div")
+    //aggiungo una class al div con variabile quadrato
+    quadrato.classList.add("square")
+    //aggiungo a square la classe per icona bombetta in ogni square
+    quadrato.classList.add("fa-solid")
+    quadrato.classList.add("fa-bomb")
+
+    //creo l'evento che quando l'utente prende la bomba si colora di rosso e scatta un alert in pagina
+    quadrato.addEventListener("click", function () {
+        if (arrayBomb.includes(contatore)) {
+            quadrato.classList.add("red")
+            quadrato.innerText = contatore
+            alert(`HAI PERSO, il tuo punteggio totale è: ${punteggio} RICARICA LA PAGINA`)
+            console.log(`Hai trovato la bomba n. : ${contatore}`)
+            console.log(`Le bombe erano le n. : ${arrayBomb}`)
+            punteggio = 0
+            /*aggiungo classe pointer che richiamo in css e quando l'utente prende la bomba
+            non può più cliccare altri quadrati */
+            grid.classList.add("pointer")
+        }
+        else{
+            // se invece non prende la bomba si colora di azzurro e mi aggiorna il risultato totale
+            quadrato.innerText = contatore
+            quadrato.classList.add("azure")
+            punteggio++
+            console.log("il tuo punteggio attuale è: " ,punteggio)
+            
+            scoreAndDifficulty()
+        }
+    })
+    //la funzione mi ritorna quadrato che poi vado a richimare fuori
+    return quadrato
+}
+
+
+start.addEventListener("click", function () {
+    grid.innerHTML = ""
+    difficulty = select.value
+    if (select.value == "easy") {
+        /*Inserisco il ciclo while che mi crea 16 bombette random senza creare doppioni e
+        finche la lista non ha 16 numeri perchè come condizione ho messo lunghezza della lista */
+        generaBombe(100)
+        console.log(select.value)
+        generatedSquare(100)
+    }
+    else if (select.value == "medium") {
+        generaBombe(81)
+        console.log(select.value)
+        generatedSquare(81, "square-9")
+    }else if (select.value == "hard") {
+        generaBombe(49)
+        console.log(select.value)
+        generatedSquare(49, "square-7")
+    }
+})
+
+//REFACTORING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+/* Funzione che mi genera le bombe per ogni livello sempre 16 ma per easy da 1 a 100 per medium fino a 81
+per hard fino a 49 */
+function generaBombe(numero) {
+    while (arrayBomb.length <=15){
+        bomb = Math.floor(Math.random() * numero) + 1;
+        if(arrayBomb.includes(bomb)){
+        }else{
+            arrayBomb.push(bomb)
+        }
+    }
+}
+
+//funziona che mi genera i quadrati e la classe per medium e hard mentre 
+//per easy mi genera solo i quadrati visto che non ha bisogno di classi
+function generatedSquare(numberSquare,classe) {
+    for (let i = 1; i <= numberSquare; i++) {
+        //Creo variabile square e gli dico che è uguale alla funzione che mi crea il quadrato
+        //e gli do il numero dell'indice del quadrato creato
+        let square = createSquare(i)
+        square.classList.add(classe)
+        //appendo alla griglia in html square
+        grid.append(square)
+    }
+}
+
+//calcola se l'utente ha vinto quando non ci sono più celle da cliccare
+function scoreAndDifficulty () {
+    //Controllo se l'utente vince quando non ci sono più celle da cliccare
+    if (difficulty == "easy" && punteggio == 84){
+        console.log("punteggio", punteggio)
+        alert("HAI VINTO")
+    }else if (difficulty == "medium" && punteggio == 65){
+        console.log("punteggio", punteggio)
+        alert("HAI VINTO")
+    }else if (difficulty == "hard" && punteggio == 2){
+        console.log("punteggio", punteggio)
+        alert("HAI VINTO")
+    }
+}
